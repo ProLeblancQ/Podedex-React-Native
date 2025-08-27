@@ -20,7 +20,6 @@ export type Pokemon = {
   description?: string;
 };
 
-// Types pour les données d'espèces
 interface PokemonSpecies {
   id: number;
   name: string;
@@ -29,14 +28,23 @@ interface PokemonSpecies {
 
 interface FlavorTextEntry {
   flavor_text: string;
-  language: {
-    name: string;
-    url: string;
-  };
-  version: {
-    name: string;
-    url: string;
-  };
+  language: { name: string; url: string };
+  version: { name: string; url: string };
+}
+
+/**
+ * Récupérer l’index global des pokémons (id + name + url)
+ */
+export async function fetchPokemonIndex(): Promise<{ id: string; name: string; url: string }[]> {
+  const INDEX_URL = `${BASE}/pokemon?limit=20000&offset=0`;
+  const res = await fetch(INDEX_URL);
+  if (!res.ok) throw new Error("Failed to fetch pokemon index");
+
+  const data = await res.json();
+  return data.results.map((item: { name: string; url: string }) => {
+    const id = item.url.split("/").filter(Boolean).pop()!;
+    return { id, name: item.name, url: item.url };
+  });
 }
 
 /**
@@ -47,11 +55,9 @@ export async function listPokemons(limit = 24, offset = 0) {
   if (!res.ok) throw new Error("Failed to fetch pokemons");
   const data = await res.json();
 
-  // Pour chaque Pokémon, on récupère les détails pour avoir les types
   const items: PokemonListItem[] = await Promise.all(
     data.results.map(async (item: any) => {
-      const parts = item.url.split("/").filter(Boolean);
-      const id = parts[parts.length - 1];
+      const id = item.url.split("/").filter(Boolean).pop()!;
       const p = await getPokemon(id);
       return {
         id,
@@ -71,7 +77,6 @@ export async function listPokemons(limit = 24, offset = 0) {
  */
 export async function getPokemon(idOrName: string | number) {
   try {
-    // Récupérer les données principales du Pokémon
     const pokemonRes = await fetch(`${BASE}/pokemon/${idOrName}`);
     if (!pokemonRes.ok) {
       if (pokemonRes.status === 404) return null;
@@ -79,21 +84,15 @@ export async function getPokemon(idOrName: string | number) {
     }
     const pokemonData = await pokemonRes.json();
 
-    // Récupérer les données d'espèce pour la description
     const speciesRes = await fetch(`${BASE}/pokemon-species/${pokemonData.id}`);
     let description: string | undefined;
-    
     if (speciesRes.ok) {
       const speciesData: PokemonSpecies = await speciesRes.json();
       description = getDescription(speciesData.flavor_text_entries);
     }
 
-    // Normaliser et ajouter la description
     const pokemon = normalizePokemon(pokemonData);
-    return {
-      ...pokemon,
-      description
-    };
+    return { ...pokemon, description };
   } catch (error) {
     console.error("Error fetching pokemon:", error);
     throw error;
@@ -107,7 +106,6 @@ export async function getPokemonDescription(id: string | number): Promise<string
   try {
     const res = await fetch(`${BASE}/pokemon-species/${id}`);
     if (!res.ok) return null;
-    
     const data: PokemonSpecies = await res.json();
     return getDescription(data.flavor_text_entries);
   } catch (error) {
@@ -146,36 +144,17 @@ function normalizePokemon(p: any): Pokemon {
  * Extraire la meilleure description disponible
  */
 function getDescription(flavorTextEntries: FlavorTextEntry[]): string {
-  // Priorité des langues (français puis anglais)
   const preferredLanguages = ['fr', 'en'];
-  
   for (const lang of preferredLanguages) {
-    // Chercher d'abord dans les versions récentes
     const modernVersions = ['sword', 'shield', 'scarlet', 'violet', 'legends-arceus', 'sun', 'moon'];
-    
     for (const version of modernVersions) {
-      const entry = flavorTextEntries.find(entry => 
-        entry.language.name === lang && 
-        entry.version.name === version
-      );
-      
-      if (entry) {
-        return cleanFlavorText(entry.flavor_text);
-      }
+      const entry = flavorTextEntries.find(e => e.language.name === lang && e.version.name === version);
+      if (entry) return cleanFlavorText(entry.flavor_text);
     }
-    
-    // Si pas trouvé dans les versions récentes, prendre la première entrée dans cette langue
-    const entry = flavorTextEntries.find(entry => entry.language.name === lang);
-    if (entry) {
-      return cleanFlavorText(entry.flavor_text);
-    }
+    const entry = flavorTextEntries.find(e => e.language.name === lang);
+    if (entry) return cleanFlavorText(entry.flavor_text);
   }
-  
-  // Fallback : première entrée disponible
-  if (flavorTextEntries.length > 0) {
-    return cleanFlavorText(flavorTextEntries[0].flavor_text);
-  }
-  
+  if (flavorTextEntries.length > 0) return cleanFlavorText(flavorTextEntries[0].flavor_text);
   return "Aucune description disponible pour ce Pokémon.";
 }
 
@@ -183,13 +162,9 @@ function getDescription(flavorTextEntries: FlavorTextEntry[]): string {
  * Nettoyer le texte de description
  */
 function cleanFlavorText(text: string): string {
-  return text
-    // Remplacer les caractères spéciaux de formatage
-    .replace(/\f/g, ' ')  // Form feed
-    .replace(/\n/g, ' ')  // Retours à la ligne
-    .replace(/\u00AD/g, '') // Soft hyphens
-    // Remplacer les espaces multiples par un seul
-    .replace(/\s+/g, ' ')
-    // Nettoyer les espaces en début/fin
-    .trim();
+  return text.replace(/\f/g, ' ').replace(/\n/g, ' ').replace(/\u00AD/g, '').replace(/\s+/g, ' ').trim();
+}
+
+export function getPokemonCryUrl(id: string | number) {
+  return `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${id}.ogg`;
 }

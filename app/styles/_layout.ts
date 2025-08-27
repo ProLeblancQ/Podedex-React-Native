@@ -1,23 +1,23 @@
-import { StyleSheet } from 'react-native';
-
+import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   header: {
-    backgroundColor: "#FF0000",
+    backgroundColor: "#DC0A2D",
     height: 100,
   },
-  titleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
+titleContainer: {
+  flexDirection: "row",
+  alignItems: "center",
+  paddingLeft: 12,
+},
   pokeball: {
     width: 30,
     height: 30,
     marginRight: 8,
   },
   headerTitle: {
+    fontFamily: "FiraSans_700Bold",
     color: "white",
-    fontWeight: "700",
     fontSize: 26,
   },
 });
