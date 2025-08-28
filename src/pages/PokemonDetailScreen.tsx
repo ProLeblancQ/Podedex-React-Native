@@ -262,7 +262,9 @@ export default function PokemonDetailScreen({ route, navigation }: Props) {
                     { backgroundColor: typeColors[type.toLowerCase()] || "#AAA" },
                   ]}
                 >
-                  <Text style={styles.typeText}>{capitalize(type)}</Text>
+                  <Text style={styles.typeText}>
+                    {t.types[type.toLowerCase() as keyof typeof t.types] || capitalize(type)}
+                  </Text>
                 </View>
               ))}
             </View>
@@ -284,7 +286,10 @@ export default function PokemonDetailScreen({ route, navigation }: Props) {
                 <View style={styles.aboutItem}>
                   <Text style={styles.aboutValue}>
                     {pokemon.abilities
-                      .map((a) => capitalize(labelize(a.name)))
+                      .map((a) => {
+                        const abilityKey = a.name.toLowerCase().replace('_', '-') as keyof typeof t.abilities;
+                        return t.abilities[abilityKey] || capitalize(labelize(a.name));
+                      })
                       .join("\n")}
                   </Text>
                   <Text style={styles.aboutLabel}>{t.moves}</Text>

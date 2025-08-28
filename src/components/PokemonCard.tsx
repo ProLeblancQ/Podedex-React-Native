@@ -2,6 +2,7 @@ import React from "react";
 import { Image, Pressable, Text, View } from "react-native";
 import { styles } from "../components/styles/PokemonCard";
 import { PokemonListItem } from "../service/pokeapi";
+import { useLanguage } from "../contexts/LanguageContext";
 import typeColors from "../utils/typeColor";
 
 
@@ -9,12 +10,15 @@ type Props = { item: PokemonListItem; onPress: () => void };
 
 
 export default function PokemonCard({ item, onPress }: Props) {
+  const { t } = useLanguage();
   const bgColor = typeColors[item.types?.[0]?.toLowerCase() || "normal"];
+  const firstType = item.types?.[0]?.toLowerCase() || "normal";
+  const translatedType = t.types[firstType as keyof typeof t.types] || item.types?.[0];
 
   return (
     <Pressable onPress={onPress} style={[styles.card, { backgroundColor: bgColor }]}>
       <View style={styles.badge}>
-        <Text style={styles.badgeText}>{item.types?.[0]?.toUpperCase()}</Text>
+        <Text style={styles.badgeText}>{translatedType?.toUpperCase()}</Text>
       </View>
 
       <View style={styles.imageWrapper}>
