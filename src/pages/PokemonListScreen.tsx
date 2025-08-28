@@ -1,10 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import {
-  View,
-  FlatList,
-  ActivityIndicator,
-  RefreshControl,
-  Text,
+import { View, FlatList, ActivityIndicator, RefreshControl, Text,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";

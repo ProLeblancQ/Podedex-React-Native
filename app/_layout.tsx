@@ -32,7 +32,7 @@ function AppNavigator() {
         headerStyle: styles.header,
         headerTitleAlign: "left",
         headerTitle: () => (
-          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+          <View style={styles.headerContent}>
             <View style={styles.titleContainer}>
               <Image
                 source={require("../assets/images/pokeball.png")}

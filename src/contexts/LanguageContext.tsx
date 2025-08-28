@@ -51,46 +51,45 @@ interface Translations {
     fairy: string;
   };
 
-  // Common abilities (most frequent ones)
+  // Common abilities
   abilities: {
-    overgrow: string;
-    blaze: string;
-    torrent: string;
+    'overgrow': string;
+    'blaze': string;
+    'torrent': string;
     'shield-dust': string;
     'compound-eyes': string;
-    swarm: string;
+    'swarm': string;
     'keen-eye': string;
-    guts: string;
+    'guts': string;
     'shed-skin': string;
     'sand-veil': string;
-    static: string;
-    lightning_rod: string;
+    'static': string;
     'sand-rush': string;
     'poison-point': string;
-    rivalry: string;
-    sheer_force: string;
-    hustle: string;
+    'rivalry': string;
+    'sheer_force': string;
+    'hustle': string;
     'inner-focus': string;
-    infiltrator: string;
-    chlorophyll: string;
-    synchronize: string;
+    'infiltrator': string;
+    'chlorophyll': string;
+    'synchronize': string;
     'clear-body': string;
     'liquid-ooze': string;
     'rock-head': string;
-    sturdy: string;
-    magnet_pull: string;
+    'sturdy': string;
+    'magnet_pull': string;
     'water-absorb': string;
     'volt-absorb': string;
     'flash-fire': string;
-    levitate: string;
+    'levitate': string;
     'effect-spore': string;
-    dry_skin: string;
-    damp: string;
-    wonder_guard: string;
-    arena_trap: string;
+    'dry_skin': string;
+    'damp': string;
+    'wonder_guard': string;
+    'arena_trap': string;
     'hyper-cutter': string;
     'sand-stream': string;
-    intimidate: string;
+    'intimidate': string;
     'rock-slide': string;
     'air-lock': string;
     'huge-power': string;
@@ -98,19 +97,18 @@ interface Translations {
     'shell-armor': string;
     'battle-armor': string;
     'thick-fat': string;
-    rough_skin: string;
+    'rough_skin': string;
     'wonder-skin': string;
     'water-veil': string;
     'magma-armor': string;
-    'water-absorb': string;
     'lightning-rod': string;
     'storm-drain': string;
     'sap-sipper': string;
     'motor-drive': string;
     'flame-body': string;
-    swiftness: string;
+    'swiftness': string;
     'early-bird': string;
-    drought: string;
+    'drought': string;
     'trace': string;
     'download': string;
     'forecast': string;
@@ -168,44 +166,44 @@ const translations: Record<Language, Translations> = {
 
     // Abilities
     abilities: {
-      overgrow: 'Engrais',
-      blaze: 'Brasier',
-      torrent: 'Torrent',
+      'overgrow': 'Engrais',
+      'blaze': 'Brasier',
+      'torrent': 'Torrent',
       'shield-dust': 'Écran Poudre',
       'compound-eyes': 'Œil Composé',
-      swarm: 'Essaim',
+      'swarm': 'Essaim',
       'keen-eye': 'Regard Vif',
-      guts: 'Cran',
+      'guts': 'Cran',
       'shed-skin': 'Mue',
       'sand-veil': 'Voile Sable',
-      static: 'Statik',
-      lightning_rod: 'Paratonnerre',
+      'static': 'Statik',
+      'lightning-rod': 'Paratonnerre',
       'sand-rush': 'Baigne Sable',
       'poison-point': 'Point Poison',
-      rivalry: 'Rivalité',
-      sheer_force: 'Force Brute',
-      hustle: 'Agitation',
+      'rivalry': 'Rivalité',
+      'sheer_force': 'Force Brute',
+      'hustle': 'Agitation',
       'inner-focus': 'Attention',
-      infiltrator: 'Infiltration',
-      chlorophyll: 'Chlorophylle',
-      synchronize: 'Synchro',
+      'infiltrator': 'Infiltration',
+      'chlorophyll': 'Chlorophylle',
+      'synchronize': 'Synchro',
       'clear-body': 'Corps Sain',
       'liquid-ooze': 'Suintement',
       'rock-head': 'Tête de Roc',
-      sturdy: 'Fermeté',
-      magnet_pull: 'Magnépiège',
+      'sturdy': 'Fermeté',
+      'magnet_pull': 'Magnépiège',
       'water-absorb': 'Absorb Eau',
       'volt-absorb': 'Absorb Volt',
       'flash-fire': 'Torche',
-      levitate: 'Lévitation',
+      'levitate': 'Lévitation',
       'effect-spore': 'Sporulation',
-      dry_skin: 'Peau Sèche',
-      damp: 'Moiteur',
-      wonder_guard: 'Garde Mystik',
-      arena_trap: 'Piège Sable',
+      'dry_skin': 'Peau Sèche',
+      'damp': 'Moiteur',
+      'wonder_guard': 'Garde Mystik',
+      'arena_trap': 'Piège Sable',
       'hyper-cutter': 'Hyper Cutter',
       'sand-stream': 'Tempête Sable',
-      intimidate: 'Intimidation',
+      'intimidate': 'Intimidation',
       'rock-slide': 'Éboulement',
       'air-lock': 'Air Lock',
       'huge-power': 'Force Pure',
@@ -213,7 +211,7 @@ const translations: Record<Language, Translations> = {
       'shell-armor': 'Coque Armure',
       'battle-armor': 'Armure Bataille',
       'thick-fat': 'Graisse',
-      rough_skin: 'Peau Dure',
+      'rough_skin': 'Peau Dure',
       'wonder-skin': 'Peau Miracle',
       'water-veil': 'Voile Eau',
       'magma-armor': 'Armumagma',
@@ -221,9 +219,9 @@ const translations: Record<Language, Translations> = {
       'sap-sipper': 'Herbivore',
       'motor-drive': 'Motorisé',
       'flame-body': 'Corps Ardent',
-      swiftness: 'Vélocité',
+      'swiftness': 'Vélocité',
       'early-bird': 'Matinal',
-      drought: 'Sécheresse',
+      'drought': 'Sécheresse',
       'trace': 'Calque',
       'download': 'Télécharge',
       'forecast': 'Météo',
@@ -279,44 +277,44 @@ const translations: Record<Language, Translations> = {
 
     // Abilities
     abilities: {
-      overgrow: 'Overgrow',
-      blaze: 'Blaze',
-      torrent: 'Torrent',
+      'overgrow': 'Overgrow',
+      'blaze': 'Blaze',
+      'torrent': 'Torrent',
       'shield-dust': 'Shield Dust',
       'compound-eyes': 'Compound Eyes',
-      swarm: 'Swarm',
+      'swarm': 'Swarm',
       'keen-eye': 'Keen Eye',
-      guts: 'Guts',
+      'guts': 'Guts',
       'shed-skin': 'Shed Skin',
       'sand-veil': 'Sand Veil',
-      static: 'Static',
-      lightning_rod: 'Lightning Rod',
+      'static': 'Static',
+      'lightning-rod': 'Lightning Rod',
       'sand-rush': 'Sand Rush',
       'poison-point': 'Poison Point',
-      rivalry: 'Rivalry',
-      sheer_force: 'Sheer Force',
-      hustle: 'Hustle',
+      'rivalry': 'Rivalry',
+      'sheer_force': 'Sheer Force',
+      'hustle': 'Hustle',
       'inner-focus': 'Inner Focus',
-      infiltrator: 'Infiltrator',
-      chlorophyll: 'Chlorophyll',
-      synchronize: 'Synchronize',
+      'infiltrator': 'Infiltrator',
+      'chlorophyll': 'Chlorophyll',
+      'synchronize': 'Synchronize',
       'clear-body': 'Clear Body',
       'liquid-ooze': 'Liquid Ooze',
       'rock-head': 'Rock Head',
-      sturdy: 'Sturdy',
-      magnet_pull: 'Magnet Pull',
+      'sturdy': 'Sturdy',
+      'magnet_pull': 'Magnet Pull',
       'water-absorb': 'Water Absorb',
       'volt-absorb': 'Volt Absorb',
       'flash-fire': 'Flash Fire',
-      levitate: 'Levitate',
+      'levitate': 'Levitate',
       'effect-spore': 'Effect Spore',
-      dry_skin: 'Dry Skin',
-      damp: 'Damp',
-      wonder_guard: 'Wonder Guard',
-      arena_trap: 'Arena Trap',
+      'dry_skin': 'Dry Skin',
+      'damp': 'Damp',
+      'wonder_guard': 'Wonder Guard',
+      'arena_trap': 'Arena Trap',
       'hyper-cutter': 'Hyper Cutter',
       'sand-stream': 'Sand Stream',
-      intimidate: 'Intimidate',
+      'intimidate': 'Intimidate',
       'rock-slide': 'Rock Slide',
       'air-lock': 'Air Lock',
       'huge-power': 'Huge Power',
@@ -324,7 +322,7 @@ const translations: Record<Language, Translations> = {
       'shell-armor': 'Shell Armor',
       'battle-armor': 'Battle Armor',
       'thick-fat': 'Thick Fat',
-      rough_skin: 'Rough Skin',
+      'rough_skin': 'Rough Skin',
       'wonder-skin': 'Wonder Skin',
       'water-veil': 'Water Veil',
       'magma-armor': 'Magma Armor',
@@ -332,9 +330,9 @@ const translations: Record<Language, Translations> = {
       'sap-sipper': 'Sap Sipper',
       'motor-drive': 'Motor Drive',
       'flame-body': 'Flame Body',
-      swiftness: 'Speed Boost',
+      'swiftness': 'Speed Boost',
       'early-bird': 'Early Bird',
-      drought: 'Drought',
+      'drought': 'Drought',
       'trace': 'Trace',
       'download': 'Download',
       'forecast': 'Forecast',
