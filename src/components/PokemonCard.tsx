@@ -2,7 +2,7 @@ import React from "react";
 import { Image, Pressable, Text, View } from "react-native";
 import { styles } from "../components/styles/PokemonCard";
 import { PokemonListItem } from "../service/pokeapi";
-import typeColors from "../service/typeColor";
+import typeColors from "../utils/typeColor";
 
 
 type Props = { item: PokemonListItem; onPress: () => void };

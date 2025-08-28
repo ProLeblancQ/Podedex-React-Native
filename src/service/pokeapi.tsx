@@ -1,39 +1,10 @@
+// src/service/pokeapi.ts
+import { PokemonListItem, Pokemon, PokemonSpecies, FlavorTextEntry } from "../type/pokemon";
+
 const BASE = "https://pokeapi.co/api/v2";
 
-export type PokemonListItem = {
-  id: string;
-  name: string;
-  image: string;
-  url: string;
-  types?: string[];
-};
-
-export type Pokemon = {
-  id: string;
-  name: string;
-  height: number;
-  weight: number;
-  types: string[];
-  stats: { name: string; base: number }[];
-  abilities: { name: string; isHidden: boolean }[];
-  sprites: { front_default: string; artwork: string };
-  description?: string;
-};
-
-interface PokemonSpecies {
-  id: number;
-  name: string;
-  flavor_text_entries: FlavorTextEntry[];
-}
-
-interface FlavorTextEntry {
-  flavor_text: string;
-  language: { name: string; url: string };
-  version: { name: string; url: string };
-}
-
 /**
- * Récupérer l’index global des pokémons (id + name + url)
+ * Récupérer l’index global des Pokémon (id + name + url)
  */
 export async function fetchPokemonIndex(): Promise<{ id: string; name: string; url: string }[]> {
   const INDEX_URL = `${BASE}/pokemon?limit=20000&offset=0`;
@@ -75,7 +46,7 @@ export async function listPokemons(limit = 24, offset = 0) {
 /**
  * Détails d'un Pokémon avec description
  */
-export async function getPokemon(idOrName: string | number) {
+export async function getPokemon(idOrName: string | number): Promise<Pokemon | null> {
   try {
     const pokemonRes = await fetch(`${BASE}/pokemon/${idOrName}`);
     if (!pokemonRes.ok) {
@@ -144,14 +115,16 @@ function normalizePokemon(p: any): Pokemon {
  * Extraire la meilleure description disponible
  */
 function getDescription(flavorTextEntries: FlavorTextEntry[]): string {
-  const preferredLanguages = ['fr', 'en'];
+  const preferredLanguages = ["fr", "en"];
   for (const lang of preferredLanguages) {
-    const modernVersions = ['sword', 'shield', 'scarlet', 'violet', 'legends-arceus', 'sun', 'moon'];
+    const modernVersions = ["sword", "shield", "scarlet", "violet", "legends-arceus", "sun", "moon"];
     for (const version of modernVersions) {
-      const entry = flavorTextEntries.find(e => e.language.name === lang && e.version.name === version);
+      const entry = flavorTextEntries.find(
+        (e) => e.language.name === lang && e.version.name === version
+      );
       if (entry) return cleanFlavorText(entry.flavor_text);
     }
-    const entry = flavorTextEntries.find(e => e.language.name === lang);
+    const entry = flavorTextEntries.find((e) => e.language.name === lang);
     if (entry) return cleanFlavorText(entry.flavor_text);
   }
   if (flavorTextEntries.length > 0) return cleanFlavorText(flavorTextEntries[0].flavor_text);
@@ -162,9 +135,16 @@ function getDescription(flavorTextEntries: FlavorTextEntry[]): string {
  * Nettoyer le texte de description
  */
 function cleanFlavorText(text: string): string {
-  return text.replace(/\f/g, ' ').replace(/\n/g, ' ').replace(/\u00AD/g, '').replace(/\s+/g, ' ').trim();
+  return text.replace(/\f/g, " ")
+    .replace(/\n/g, " ")
+    .replace(/\u00AD/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
+/**
+ * URL du cri du Pokémon
+ */
 export function getPokemonCryUrl(id: string | number) {
   return `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${id}.ogg`;
 }

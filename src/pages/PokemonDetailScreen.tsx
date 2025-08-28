@@ -1,5 +1,6 @@
 import { RootStackParamList } from "@/app/_layout";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { Audio } from "expo-av";
 import React, { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
@@ -13,9 +14,9 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "../pages/styles/PokemonDetailScreen";
-import { getPokemon, Pokemon } from "../service/pokeapi";
-import typeColors from "../service/typeColor";
-import { Audio } from "expo-av";
+import { getPokemon } from "../service/pokeapi";
+import type { Pokemon } from "../type/pokemon";
+import typeColors from "../utils/typeColor";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Detail">;
 
@@ -324,7 +325,7 @@ function StatRow({
   useEffect(() => {
     Animated.timing(anim, {
       toValue: Math.min(value, 255),
-      duration: 700,
+      duration: 1800,
       easing: Easing.out(Easing.cubic),
       useNativeDriver: false,
     }).start();

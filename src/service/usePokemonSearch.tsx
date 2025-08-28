@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
-import { Pokemon, PokemonListItem, getPokemon } from "./pokeapi";
+import { getPokemon } from "./pokeapi";
+import type { Pokemon } from "../type/pokemon";
+
 
 type IndexItem = { id: string; name: string; url: string };
 

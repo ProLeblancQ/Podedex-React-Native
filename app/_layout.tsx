@@ -5,8 +5,8 @@ import PokemonListScreen from "../src/pages/PokemonListScreen";
 import PokemonDetailScreen from "../src/pages/PokemonDetailScreen";
 import { styles } from "./styles/_layout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useFonts } from "@expo-google-fonts/fira-sans";
 import {
+  useFonts,
   FiraSans_400Regular,
   FiraSans_600SemiBold,
   FiraSans_700Bold,
@@ -22,7 +22,6 @@ export type RootStackParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
-  // Charger les polices Fira Sans
   const [fontsLoaded] = useFonts({
     FiraSans_400Regular,
     FiraSans_600SemiBold,
@@ -39,9 +38,7 @@ export default function App() {
           headerTitle: () => (
             <View style={styles.titleContainer}>
               <Image
-                source={{
-                  uri: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png",
-                }}
+                source={require("../assets/images/pokeball.png")}
                 style={styles.pokeball}
               />
               <Text style={styles.headerTitle}>Pokédex</Text>
