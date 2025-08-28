@@ -41,7 +41,42 @@ export const styles = StyleSheet.create({
     elevation: 20,
     pointerEvents: 'none',
   },
-  pokemonImage: { width: 170, height: 170 },
+  pokemonImage: { 
+    width: 170, 
+    height: 170,
+    zIndex: 10,
+    elevation: 10,
+  },
+
+  imageNavigation: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    pointerEvents: 'box-none',
+  },
+
+  navLeftBtn: {
+    marginLeft: 20,
+  },
+  
+  navRightBtn: {
+    marginRight: 20,
+  },
+
+  pokemonBackgroundImage: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    width: 220,
+    height: 220,
+    zIndex: 2,
+    elevation: 2,
+  },
 
   whiteCap: {
     position: 'absolute',
@@ -135,26 +170,6 @@ export const styles = StyleSheet.create({
   statBar: { height: '100%', borderRadius: 4 },
   statDivider: { height: 1, backgroundColor: '#E8E8E8', marginVertical: 4 },
 
-  navOverlay: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    justifyContent: 'center',
-    pointerEvents: 'box-none',
-  },
-  navSideZone: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    justifyContent: 'center',
-    width: 88,
-    alignItems: 'center',
-    pointerEvents: 'box-none',
-  },
-  navLeftZone: { left: 0 },
-  navRightZone: { right: 0 },
   navCircleBtn: {
     width: 42,
     height: 42,

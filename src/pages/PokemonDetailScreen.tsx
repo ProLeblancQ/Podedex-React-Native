@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   Animated,
   Easing,
+  Image,
   PanResponder,
   ScrollView,
   Text,
@@ -70,7 +71,7 @@ export default function PokemonDetailScreen({ route, navigation }: Props) {
         useNativeDriver: true,
       }),
     ]).start();
-  }, [id]);
+  }, [id, imageScale, imageTranslateY, panX]);
 
   useEffect(() => {
     let active = true;
@@ -188,6 +189,13 @@ export default function PokemonDetailScreen({ route, navigation }: Props) {
 
           {/* IMAGE clickable → cri */}
           <View style={styles.pokemonImageOverlap}>
+            {/* IMAGE DE FOND POKEBALL */}
+            <Image
+              source={require("../../assets/images/pokeballBG.png")}
+              style={styles.pokemonBackgroundImage}
+              resizeMode="contain"
+            />
+            
             <TouchableOpacity
               onPress={() => playCry(pokemon.id)}
               activeOpacity={0.8}
@@ -206,6 +214,30 @@ export default function PokemonDetailScreen({ route, navigation }: Props) {
                 resizeMode="contain"
               />
             </TouchableOpacity>
+
+            {/* BOUTONS NAVIGATION AU NIVEAU DE L'IMAGE */}
+            <View style={styles.imageNavigation}>
+              <TouchableOpacity
+                disabled={numericId <= 1}
+                onPress={() => goToSibling(-1)}
+                style={[
+                  styles.navCircleBtn,
+                  styles.navLeftBtn,
+                  numericId <= 1 && styles.navBtnDisabled,
+                ]}
+                activeOpacity={0.8}
+              >
+                <Text style={styles.navArrowIcon}>‹</Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity
+                onPress={() => goToSibling(1)}
+                style={[styles.navCircleBtn, styles.navRightBtn]}
+                activeOpacity={0.8}
+              >
+                <Text style={styles.navArrowIcon}>›</Text>
+              </TouchableOpacity>
+            </View>
           </View>
 
           <View pointerEvents="none" style={styles.whiteCap} />
@@ -282,31 +314,6 @@ export default function PokemonDetailScreen({ route, navigation }: Props) {
           </View>
         </ScrollView>
 
-        {/* NAVIGATION */}
-        <View pointerEvents="box-none" style={styles.navOverlay}>
-          <View style={[styles.navSideZone, styles.navLeftZone]}>
-            <TouchableOpacity
-              disabled={numericId <= 1}
-              onPress={() => goToSibling(-1)}
-              style={[
-                styles.navCircleBtn,
-                numericId <= 1 && styles.navBtnDisabled,
-              ]}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.navArrowIcon}>‹</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={[styles.navSideZone, styles.navRightZone]}>
-            <TouchableOpacity
-              onPress={() => goToSibling(1)}
-              style={styles.navCircleBtn}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.navArrowIcon}>›</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
       </Animated.View>
     </View>
   );
