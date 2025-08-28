@@ -21,7 +21,7 @@ export async function fetchPokemonIndex(): Promise<{ id: string; name: string; u
 /**
  * Liste de Pokémon avec pagination
  */
-export async function listPokemons(limit = 24, offset = 0) {
+export async function listPokemons(limit = 24, offset = 0, language: string = 'fr') {
   const res = await fetch(`${BASE}/pokemon?limit=${limit}&offset=${offset}`);
   if (!res.ok) throw new Error("Failed to fetch pokemons");
   const data = await res.json();
@@ -29,10 +29,10 @@ export async function listPokemons(limit = 24, offset = 0) {
   const items: PokemonListItem[] = await Promise.all(
     data.results.map(async (item: any) => {
       const id = item.url.split("/").filter(Boolean).pop()!;
-      const p = await getPokemon(id);
+      const p = await getPokemon(id, language);
       return {
         id,
-        name: item.name,
+        name: p?.name || item.name,
         image: getPokemonArtworkUrl(id),
         url: item.url,
         types: p?.types || ["normal"],
@@ -46,7 +46,7 @@ export async function listPokemons(limit = 24, offset = 0) {
 /**
  * Détails d'un Pokémon avec description
  */
-export async function getPokemon(idOrName: string | number): Promise<Pokemon | null> {
+export async function getPokemon(idOrName: string | number, language: string = 'fr'): Promise<Pokemon | null> {
   try {
     const pokemonRes = await fetch(`${BASE}/pokemon/${idOrName}`);
     if (!pokemonRes.ok) {
@@ -57,13 +57,17 @@ export async function getPokemon(idOrName: string | number): Promise<Pokemon | n
 
     const speciesRes = await fetch(`${BASE}/pokemon-species/${pokemonData.id}`);
     let description: string | undefined;
+    let translatedName: string = pokemonData.name;
+    
     if (speciesRes.ok) {
       const speciesData: PokemonSpecies = await speciesRes.json();
-      description = getDescription(speciesData.flavor_text_entries);
+      description = getDescription(speciesData.flavor_text_entries, language);
+      // Récupérer le nom traduit si disponible
+      translatedName = getTranslatedName(speciesData, language) || pokemonData.name;
     }
 
     const pokemon = normalizePokemon(pokemonData);
-    return { ...pokemon, description };
+    return { ...pokemon, name: translatedName, description };
   } catch (error) {
     console.error("Error fetching pokemon:", error);
     throw error;
@@ -73,12 +77,12 @@ export async function getPokemon(idOrName: string | number): Promise<Pokemon | n
 /**
  * Récupérer seulement la description d'un Pokémon
  */
-export async function getPokemonDescription(id: string | number): Promise<string | null> {
+export async function getPokemonDescription(id: string | number, language: string = 'fr'): Promise<string | null> {
   try {
     const res = await fetch(`${BASE}/pokemon-species/${id}`);
     if (!res.ok) return null;
     const data: PokemonSpecies = await res.json();
-    return getDescription(data.flavor_text_entries);
+    return getDescription(data.flavor_text_entries, language);
   } catch (error) {
     console.error("Error fetching pokemon description:", error);
     return null;
@@ -114,8 +118,10 @@ function normalizePokemon(p: any): Pokemon {
 /**
  * Extraire la meilleure description disponible
  */
-function getDescription(flavorTextEntries: FlavorTextEntry[]): string {
-  const preferredLanguages = ["fr", "en"];
+function getDescription(flavorTextEntries: FlavorTextEntry[], language: string = 'fr'): string {
+  const fallbackLanguage = language === 'fr' ? 'en' : 'fr';
+  const preferredLanguages = [language, fallbackLanguage];
+  
   for (const lang of preferredLanguages) {
     const modernVersions = ["sword", "shield", "scarlet", "violet", "legends-arceus", "sun", "moon"];
     for (const version of modernVersions) {
@@ -127,8 +133,19 @@ function getDescription(flavorTextEntries: FlavorTextEntry[]): string {
     const entry = flavorTextEntries.find((e) => e.language.name === lang);
     if (entry) return cleanFlavorText(entry.flavor_text);
   }
+  
   if (flavorTextEntries.length > 0) return cleanFlavorText(flavorTextEntries[0].flavor_text);
-  return "Aucune description disponible pour ce Pokémon.";
+  return language === 'fr' ? "Aucune description disponible pour ce Pokémon." : "No description available for this Pokémon.";
+}
+
+/**
+ * Récupérer le nom traduit d'un Pokémon
+ */
+function getTranslatedName(speciesData: any, language: string = 'fr'): string | null {
+  if (!speciesData.names) return null;
+  
+  const nameEntry = speciesData.names.find((name: any) => name.language.name === language);
+  return nameEntry ? nameEntry.name : null;
 }
 
 /**

@@ -15,6 +15,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "../pages/styles/PokemonDetailScreen";
+import { useLanguage } from "../contexts/LanguageContext";
 import { getPokemon } from "../service/pokeapi";
 import type { Pokemon } from "../type/pokemon";
 import typeColors from "../utils/typeColor";
@@ -25,6 +26,7 @@ const SWIPE_TRIGGER = 80;
 const SWIPE_VELOCITY = 0.3;
 
 export default function PokemonDetailScreen({ route, navigation }: Props) {
+  const { t, language } = useLanguage();
   const { id } = route.params;
   const numericId = Number(id);
   const [pokemon, setPokemon] = useState<Pokemon | null>(null);
@@ -78,7 +80,7 @@ export default function PokemonDetailScreen({ route, navigation }: Props) {
     setLoading(true);
     (async () => {
       try {
-        const p = await getPokemon(id);
+        const p = await getPokemon(id, language);
         if (active) {
           setPokemon(p);
           if (p) playCry(p.id);
@@ -90,7 +92,7 @@ export default function PokemonDetailScreen({ route, navigation }: Props) {
     return () => {
       active = false;
     };
-  }, [id]);
+  }, [id, language]);
 
   const goToSibling = (delta: 1 | -1) => {
     const nextId = Math.max(1, numericId + delta);
@@ -157,7 +159,7 @@ export default function PokemonDetailScreen({ route, navigation }: Props) {
   if (!pokemon)
     return (
       <View style={styles.center}>
-        <Text>Impossible de charger ce Pokémon.</Text>
+        <Text>{t.loadError}</Text>
       </View>
     );
 
@@ -266,17 +268,17 @@ export default function PokemonDetailScreen({ route, navigation }: Props) {
             </View>
 
             {/* About */}
-            <Text style={styles.sectionTitle}>About</Text>
+            <Text style={styles.sectionTitle}>{t.about}</Text>
             <View style={styles.aboutCard}>
               <View style={styles.aboutContainer}>
                 <View style={styles.aboutItem}>
                   <Text style={styles.aboutValue}>{pokemon.weight} kg</Text>
-                  <Text style={styles.aboutLabel}>Weight</Text>
+                  <Text style={styles.aboutLabel}>{t.weight}</Text>
                 </View>
                 <View style={styles.aboutSeparator} />
                 <View style={styles.aboutItem}>
                   <Text style={styles.aboutValue}>{pokemon.height} m</Text>
-                  <Text style={styles.aboutLabel}>Height</Text>
+                  <Text style={styles.aboutLabel}>{t.height}</Text>
                 </View>
                 <View style={styles.aboutSeparator} />
                 <View style={styles.aboutItem}>
@@ -285,7 +287,7 @@ export default function PokemonDetailScreen({ route, navigation }: Props) {
                       .map((a) => capitalize(labelize(a.name)))
                       .join("\n")}
                   </Text>
-                  <Text style={styles.aboutLabel}>Moves</Text>
+                  <Text style={styles.aboutLabel}>{t.moves}</Text>
                 </View>
               </View>
               <Text style={styles.pokemonDescription}>
@@ -294,10 +296,10 @@ export default function PokemonDetailScreen({ route, navigation }: Props) {
             </View>
 
             {/* Stats */}
-            <Text style={styles.sectionTitle}>Base Stats</Text>
+            <Text style={styles.sectionTitle}>{t.baseStats}</Text>
             <View style={styles.statsContainer}>
               {pokemon.stats.map((stat, index) => {
-                const abbr = getStatAbbreviation(stat.name);
+                const abbr = getStatAbbreviation(stat.name, t);
                 const isLast = index === pokemon.stats.length - 1;
                 return (
                   <View key={stat.name}>
@@ -366,14 +368,14 @@ function capitalize(s: string) {
 function labelize(s: string) {
   return s.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }
-function getStatAbbreviation(statName: string): string {
+function getStatAbbreviation(statName: string, t: any): string {
   const map: Record<string, string> = {
-    hp: "HP",
-    attack: "ATK",
-    defense: "DEF",
-    "special-attack": "SATK",
-    "special-defense": "SDEF",
-    speed: "SPD",
+    hp: t.hp,
+    attack: t.attack,
+    defense: t.defense,
+    "special-attack": t.specialAttack,
+    "special-defense": t.specialDefense,
+    speed: t.speed,
   };
   return map[statName.toLowerCase()] || statName.toUpperCase();
 }

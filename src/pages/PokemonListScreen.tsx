@@ -10,6 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { RootStackParamList } from "@/app/_layout";
+import { useLanguage } from "../contexts/LanguageContext";
 import PokemonCard from "../components/PokemonCard";
 import SearchBar from "../components/SearchBar";
 import SortButton from "../components/SortButton";
@@ -37,6 +38,7 @@ const formatName = (name: string) =>
   name ? name.charAt(0).toUpperCase() + name.slice(1) : name;
 
 export default function PokemonListScreen({ navigation }: Props) {
+  const { t, language } = useLanguage();
   const [indexList, setIndexList] = useState<
     { id: string; name: string; url: string }[]
   >([]);
@@ -62,11 +64,11 @@ export default function PokemonListScreen({ navigation }: Props) {
 
   // Query unifiée pour la pagination
   const pokemonQuery = useInfiniteQuery({
-    queryKey: ["pokemons", sortOrder],
+    queryKey: ["pokemons", sortOrder, language],
     queryFn: async ({ pageParam = 0 }) => {
       if (sortOrder === "id") {
         // Pagination classique par offset
-        return listPokemons(PAGE_SIZE, pageParam as number);
+        return listPokemons(PAGE_SIZE, pageParam as number, language);
       } else {
         // Pagination par index trié
         const start = pageParam as number;
@@ -173,7 +175,7 @@ export default function PokemonListScreen({ navigation }: Props) {
             <SearchBar
               value={query}
               onChangeText={setQuery}
-              placeholder="Rechercher un Pokémon..."
+              placeholder={t.searchPlaceholder}
               onClear={() => setQuery("")}
             />
 
@@ -182,20 +184,20 @@ export default function PokemonListScreen({ navigation }: Props) {
 
             {/* Message si aucun résultat */}
             {notFound && !searching && (
-              <Text>{`Aucun Pokémon trouvé pour "${query}"`}</Text>
+              <Text>{`${t.noPokemonFound} "${query}"`}</Text>
             )}
 
             {/* Boutons de tri (cachés pendant la recherche) */}
             {!searchResult && (
               <View style={{ flexDirection: "row", marginVertical: 8, gap: 8 }}>
                 <SortButton
-                  label="Trier par ID"
+                  label={t.sortById}
                   value="id"
                   active={sortOrder === "id"}
                   onPress={() => handleSortChange("id")}
                 />
                 <SortButton
-                  label="Trier par Nom"
+                  label={t.sortByName}
                   value="name"
                   active={sortOrder === "name"}
                   onPress={() => handleSortChange("name")}
