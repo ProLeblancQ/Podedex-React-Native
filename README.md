@@ -22,13 +22,11 @@ Une application **React Native** utilisant **PokéAPI**, permettant de :
 
 ```bash
 # 1. Cloner le repo
-git clone https://github.com/ton-username/pokedex-app.git
-cd pokedex-app
+git clone https://github.com/ProLeblancQ/Podedex-React-Native.git
+cd Podedex-React-Native
 
 # 2. Installer les dépendances
 npm install
-# ou
-yarn install
 
 # 3. Lancer l'application
 npx expo start
