@@ -20,12 +20,15 @@ export const styles = StyleSheet.create({
   pokeball: {
     width: 30,
     height: 30,
-    marginRight: 12,
   },
   headerTitle: {
     fontFamily: "FiraSans_700Bold",
     color: "white",
     fontSize: 26,
-    marginRight: 16,
+  },
+  togglesContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
   },
 });

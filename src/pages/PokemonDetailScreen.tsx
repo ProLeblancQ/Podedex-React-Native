@@ -16,6 +16,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "../pages/styles/PokemonDetailScreen";
 import { useLanguage } from "../contexts/LanguageContext";
+import { useAudio } from "../contexts/AudioContext";
 import { getPokemon } from "../service/pokeapi";
 import type { Pokemon } from "../type/pokemon";
 import typeColors from "../utils/typeColor";
@@ -27,6 +28,7 @@ const SWIPE_VELOCITY = 0.3;
 
 export default function PokemonDetailScreen({ route, navigation }: Props) {
   const { t, language } = useLanguage();
+  const { isMuted } = useAudio();
   const { id } = route.params;
   const numericId = Number(id);
   const [pokemon, setPokemon] = useState<Pokemon | null>(null);
@@ -39,6 +41,8 @@ export default function PokemonDetailScreen({ route, navigation }: Props) {
 
   // 🔊 Lecture du cri
   async function playCry(pokemonId: string | number) {
+    if (isMuted) return;
+    
     try {
       const { sound } = await Audio.Sound.createAsync(
         {

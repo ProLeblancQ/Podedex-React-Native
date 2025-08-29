@@ -6,7 +6,9 @@ import PokemonDetailScreen from "../src/pages/PokemonDetailScreen";
 import { styles } from "./styles/_layout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { LanguageProvider, useLanguage } from "../src/contexts/LanguageContext";
+import { AudioProvider } from "../src/contexts/AudioContext";
 import { LanguageToggle } from "../src/components/LanguageToggle";
+import { AudioToggle } from "../src/components/AudioToggle";
 import {
   useFonts,
   FiraSans_400Regular,
@@ -40,7 +42,10 @@ function AppNavigator() {
               />
               <Text style={styles.headerTitle}>{t.appTitle}</Text>
             </View>
-            <LanguageToggle />
+            <View style={styles.togglesContainer}>
+              <LanguageToggle />
+              <AudioToggle />
+            </View>
           </View>
         ),
         headerShadowVisible: false,
@@ -68,7 +73,9 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
-        <AppNavigator />
+        <AudioProvider>
+          <AppNavigator />
+        </AudioProvider>
       </LanguageProvider>
     </QueryClientProvider>
   );
