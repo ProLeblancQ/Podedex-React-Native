@@ -8,8 +8,6 @@
 
 **Une application Pokédex développée avec React Native et Expo**
 
-*Explorez le monde Pokémon avec style !*
-
 </div>
 
 ---
@@ -106,12 +104,12 @@ npx expo start --web
 ## 📱 Captures d'Écran
 
 ### Interface Principale
-![Pokédex Demo](https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png)
+![Pokédex Demo](assets/images/Screenshot-List.png)
 
 *Liste des Pokémon avec recherche et tri*
 
 ### Détails d'un Pokémon  
-![Pokémon Details](https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/151.png)
+![Pokémon Details](assets/images/Screenshot-Details.png)
 
 *Écran de détails avec statistiques et audio*
 
